@@ -4,16 +4,16 @@ import customerService from './customer.service';
 const getAllCustomers = async (req, res, next) => {
   try {
     const customers = await customerService.getAllCustomers();
+    console.log(customers);
+    if (!customers) {
+      throw new HttpError(404, 'Customers not found');
+    }
     res.status(200).json(customers);
   } catch (error) {
     next(error);
   }
 };
 
-// const customers = await prisma.customers.findMany();
-// console.log(customers);
-// res.status(200).json(customers);
-// };
 // const getAllCustomers = async (req, res, next) => {
 //   try {
 //     const customers = await customerService.getAllCustomers();
@@ -26,6 +26,8 @@ const getAllCustomers = async (req, res, next) => {
 //     next(error);
 //   }
 // };
+
+// TODO: check if the customer exists and if it does, return an empty object
 
 const getCustomer = async (req, res, next) => {
   try {

@@ -8,6 +8,7 @@ const prisma = new PrismaClient();
 const getAllCustomers = async () => {
   const customers = await prisma.customers.findMany();
   console.log(customers);
+  if (!customers) return { message: 'No customers found' };
   return customers;
   // const query = 'SELECT * FROM customers';
   // const customers = await con.promise().query(query);

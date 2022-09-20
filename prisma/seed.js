@@ -5,12 +5,12 @@ const prisma = new PrismaClient();
 async function addNewCustomerWithPost() {
   try {
     const newCustomer = await prisma.customers.upsert({
-      where: { username: 'Johndoe1' },
+      where: { username: 'Johndoe2' },
       update: {},
       create: {
         name: 'John Doe',
-        username: 'Johndoe1',
-        email: 'john1@example.com',
+        username: 'Johndoe2',
+        email: 'john2@example.com',
         password: 'password',
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -23,7 +23,7 @@ async function addNewCustomerWithPost() {
       },
     });
 
-    console.log('Create 1 author with 2 quotes: ', newCustomer);
+    console.log('Create 1 customer with 2 post: ', newCustomer);
   } catch (error) {
     console.error(error);
     process.exit(1);
