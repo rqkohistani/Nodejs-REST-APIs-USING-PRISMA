@@ -22,7 +22,7 @@ const serve = async () => {
   app.get('/', (req, res) => {
     res.sendFile(`${__dirname}/index.html`);
   });
-  app.use('/api/v2/', routes());
+  app.use('/api/v3', routes());
   app.use(notFoundRoute);
   app.use(errorHandler);
 
