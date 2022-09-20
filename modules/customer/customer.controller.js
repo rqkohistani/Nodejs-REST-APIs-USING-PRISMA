@@ -4,15 +4,28 @@ import customerService from './customer.service';
 const getAllCustomers = async (req, res, next) => {
   try {
     const customers = await customerService.getAllCustomers();
-    if (!customers[0]) {
-      throw new HttpError(404, 'No customer found');
-    }
-    const [customersObject] = customers;
-    res.status(200).json(customersObject);
+    res.status(200).json(customers);
   } catch (error) {
     next(error);
   }
 };
+
+// const customers = await prisma.customers.findMany();
+// console.log(customers);
+// res.status(200).json(customers);
+// };
+// const getAllCustomers = async (req, res, next) => {
+//   try {
+//     const customers = await customerService.getAllCustomers();
+//     if (!customers[0]) {
+//       throw new HttpError(404, 'No customer found');
+//     }
+//     const [customersObject] = customers;
+//     res.status(200).json(customersObject);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 const getCustomer = async (req, res, next) => {
   try {

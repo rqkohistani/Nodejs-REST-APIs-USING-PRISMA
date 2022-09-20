@@ -1,12 +1,17 @@
 import bcrypt from 'bcrypt';
+import { PrismaClient } from '@prisma/client';
 import con from '../../dbConnection';
 
+const prisma = new PrismaClient();
 // TODO: update the customer's updateAt field when updating a customer
 
 const getAllCustomers = async () => {
-  const query = 'SELECT * FROM customers';
-  const customers = await con.promise().query(query);
+  const customers = await prisma.customers.findMany();
+  console.log(customers);
   return customers;
+  // const query = 'SELECT * FROM customers';
+  // const customers = await con.promise().query(query);
+  // return customers;
 };
 
 const getCustomer = async (id) => {

@@ -6,7 +6,8 @@ import securityMiddleware from '../../middleware/security';
 
 const routes = () => {
   const customerRouter = express.Router();
-  customerRouter.get('/', securityMiddleware, getAllCustomers);
+  customerRouter.get('/', getAllCustomers);
+  // customerRouter.get('/', securityMiddleware, getAllCustomers);
   customerRouter.get('/:id', securityMiddleware, getCustomer);
   customerRouter.post('/', securityMiddleware, customerValidators.createCustomer, createCustomer);
   customerRouter.patch('/:id', securityMiddleware, customerValidators.updateCustomer, updateCustomer);
