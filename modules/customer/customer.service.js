@@ -1,55 +1,52 @@
 import bcrypt from 'bcrypt';
 import { PrismaClient } from '@prisma/client';
-import con from '../../dbConnection';
 
 const prisma = new PrismaClient();
-// TODO: update the customer's updateAt field when updating a customer
 
 const getAllCustomers = async () => {
   const customers = await prisma.customers.findMany();
-  console.log(customers);
-  if (!customers) return { message: 'No customers found' };
   return customers;
-  // const query = 'SELECT * FROM customers';
-  // const customers = await con.promise().query(query);
-  // return customers;
 };
 
 const getCustomer = async (id) => {
-  const query = 'SELECT * FROM customers WHERE id = ?';
-  const customer = await con.promise().query(query, [id]);
+  const customer = await prisma.customers.findUnique({
+    where: { id },
+  });
   return customer;
 };
 
 const createCustomer = async (customer) => {
-  const query = 'INSERT INTO customers SET ?';
-  const newCustomer = {
-    ...customer,
-    password: await bcrypt.hash(customer.password, 10),
-  };
-  const data = await con.promise().query(query, [newCustomer]);
-  return data;
+  const newCustomer = await prisma.customers.create({
+    data: {
+      ...customer,
+      password: bcrypt.hashSync(customer.password, 10),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  });
+  if (!newCustomer) return null;
+  return newCustomer;
 };
 
 const updateCustomer = async (customerId, upadateCustomer) => {
-  const query = 'UPDATE customers SET ? WHERE id = ?';
   const oldCustomer = await getCustomer(customerId);
-  if (oldCustomer) {
-    const customerData = {
+  if (!oldCustomer) return null;
+  const updatedCustomer = await prisma.customers.update({
+    where: { id: customerId },
+    data: {
       ...upadateCustomer,
-      password: await bcrypt.hash(upadateCustomer.password, 10),
+      password: bcrypt.hashSync(upadateCustomer.password, 10),
       updatedAt: new Date(),
-    };
-    const data = await con.promise().query(query, [customerData, customerId]);
-    return data;
-  }
-  return null;
+    },
+  });
+  return updatedCustomer;
 };
 
-const deleteCustomer = async (id) => {
-  const query = 'DELETE FROM customers WHERE id = ?';
-  const deleteCustomer = await con.promise().query(query, id);
-  return deleteCustomer;
+const deleteCustomer = async (customerId) => {
+  const deletedCustomer = await prisma.customers.delete({
+    where: { id: customerId },
+  });
+  return deletedCustomer;
 };
 
 const customerService = {
