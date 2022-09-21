@@ -22,7 +22,7 @@ async function addNewCustomer() {
         updatedAt: new Date(),
       },
     });
-    console.log('Create 1 author with 2 quotes: ', newCustomer);
+    console.log('Create 1 customer with 2 post: ', newCustomer);
   } catch (error) {
     console.error(error);
     process.exit(1);

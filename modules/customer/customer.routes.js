@@ -6,11 +6,16 @@ import securityMiddleware from '../../middleware/security';
 
 const routes = () => {
   const customerRouter = express.Router();
-  customerRouter.get('/', securityMiddleware, getAllCustomers);
-  customerRouter.get('/:id', securityMiddleware, getCustomer);
-  customerRouter.post('/', securityMiddleware, customerValidators.createCustomer, createCustomer);
-  customerRouter.patch('/:id', securityMiddleware, customerValidators.updateCustomer, updateCustomer);
-  customerRouter.delete('/:id', securityMiddleware, customerValidators.deleteCustomer, deleteCustomer);
+  customerRouter.get('/', getAllCustomers);
+  // customerRouter.get('/', securityMiddleware, getAllCustomers);
+  customerRouter.get('/:id', getCustomer);
+  // customerRouter.get('/:id', securityMiddleware, getCustomer);
+  customerRouter.post('/', createCustomer);
+  // customerRouter.post('/', securityMiddleware, customerValidators.createCustomer, createCustomer);
+  customerRouter.patch('/:id', updateCustomer);
+  // customerRouter.patch('/:id', securityMiddleware, customerValidators.updateCustomer, updateCustomer);
+  customerRouter.delete('/:id', deleteCustomer);
+  // customerRouter.delete('/:id', securityMiddleware, customerValidators.deleteCustomer, deleteCustomer);
 
   return customerRouter;
 };
