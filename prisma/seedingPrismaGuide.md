@@ -1,5 +1,16 @@
 # PRISMA GUIDE
 
+## Scripts
+
+1. ```npx prisma db seed``` Runs a completely normal js file (seed.js) that uses prisma queries to upsert/create data in the db.
+1. ```npx prisma migrate dev --name init``` creates the database and tables
+1. ```npx prisma migrate reset``` resets the database and tables
+1. ```npx prisma db push --force-reset``` resets the database and then pushes the schema to the database
+1. ```npx prisma studio``` opens the prisma studio 
+1. ```npx prisma db pull``` pulls the database schema and writes it to the schema.prisma file
+1. ```npx prisma generate``` generates the prisma client and Reads Prisma schema and generates Prisma Client library (node_modules specific to our project/autocomplete, etc)
+1. ```npx prisma migrate dev --name Name``` - Maps prisma data model into the db schema (with migration script)
+
 1. Prepair Database for Prisma
 1. install the Prisma CLI as a development dependency in the project:
 
@@ -186,3 +197,8 @@ SELECT * FROM dbo.Customers;
 -- DROP TABLE dbo.Customers;
 
 ```
+
+
+## Usefull links
+
+1. [danilucaci](https://www.danilucaci.com/blog/reset-and-seed-prisma-database)
