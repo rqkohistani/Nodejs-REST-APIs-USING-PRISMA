@@ -1,22 +1,6 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Post` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `User` table. If the table is not empty, all the data it contains will be lost.
-
-*/
 BEGIN TRY
 
 BEGIN TRAN;
-
--- DropForeignKey
-ALTER TABLE [dbo].[Post] DROP CONSTRAINT [Post_authorId_fkey];
-
--- DropTable
-DROP TABLE [dbo].[Post];
-
--- DropTable
-DROP TABLE [dbo].[User];
 
 -- CreateTable
 CREATE TABLE [dbo].[customers] (
@@ -42,6 +26,17 @@ CREATE TABLE [dbo].[posts] (
     [createdAt] DATETIME NOT NULL CONSTRAINT [posts_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
     [updatedAt] DATETIME2 NOT NULL CONSTRAINT [posts_updatedAt_df] DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT [posts_pkey] PRIMARY KEY CLUSTERED ([id])
+);
+
+-- CreateTable
+CREATE TABLE [dbo].[user] (
+    [id] INT NOT NULL IDENTITY(1,1),
+    [first_name] NVARCHAR(100) NOT NULL,
+    [last_name] NVARCHAR(100) NOT NULL,
+    [email] VARCHAR(50) NOT NULL,
+    [password] VARCHAR(255) NOT NULL,
+    CONSTRAINT [user_pkey] PRIMARY KEY CLUSTERED ([id]),
+    CONSTRAINT [user_email_key] UNIQUE NONCLUSTERED ([email])
 );
 
 -- CreateIndex

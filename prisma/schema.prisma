@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "sqlserver"
   url      = env("APPSETTING_DATABASE_URL")
+  // shadowDatabaseUrl = env("APPSETTING_SHADOW_DATABASE_URL")
 }
 
 model customers {
@@ -30,3 +31,11 @@ model posts {
 
   @@index([customerId], map: "customerId")
 }
+
+model user {
+  id         Int      @id @default(autoincrement())
+  fullName  String   @map("fullName") @db.NVarChar(100)
+  email      String   @unique @db.VarChar(50)
+  password   String   @db.VarChar(255)
+}
+

@@ -1,5 +1,7 @@
 # PRISMA GUIDE
 
+## [Azure studio database quickstart](https://learn.microsoft.com/en-us/sql/azure-data-studio/quickstart-sql-server?view=sql-server-ver16)
+
 ## Scripts
 
 1. ```npx prisma db seed``` Runs a completely normal js file (seed.js) that uses prisma queries to upsert/create data in the db.
