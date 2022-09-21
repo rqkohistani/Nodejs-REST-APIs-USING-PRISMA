@@ -7,7 +7,6 @@ datasource db {
   url      = env("APPSETTING_DATABASE_URL")
   // shadowDatabaseUrl = env("APPSETTING_SHADOW_DATABASE_URL")
 }
-
 model customers {
   id        Int      @id @default(autoincrement())
   name      String   @db.VarChar(50)
@@ -34,8 +33,11 @@ model posts {
 
 model user {
   id         Int      @id @default(autoincrement())
-  fullName  String   @map("fullName") @db.NVarChar(100)
+  name       String   @map("name") @db.NVarChar(100)
   email      String   @unique @db.VarChar(50)
+  userRole  String   @map("userRole") @db.VarChar(50)
   password   String   @db.VarChar(255)
+  createdAt  DateTime @default(now()) @db.DateTime
+  updatedAt  DateTime @default(now()) @updatedAt
 }
 

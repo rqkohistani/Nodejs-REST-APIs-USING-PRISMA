@@ -1,65 +1,61 @@
+import { PrismaClient } from '@prisma/client';
+
 import bcrypt from 'bcrypt';
 import con from '../../dbConnection';
 
+const prisma = new PrismaClient();
+
 const getAllAdmins = async () => {
-  const query = 'SELECT * FROM admins';
-  const [rows] = await con.promise().query(query);
-  return rows;
-  // returns admins withouth password
-  // const admins = await con.promise().query(query);
-  // return admins[0].map((admin) => {
-  //   const { password, ...adminWithoutPassword } = admin;
-  //   return adminWithoutPassword;
-  // });
+  const admins = await prisma.user.findMany();
+  return admins;
 };
 
 const getAdmin = async (id) => {
-  const query = 'SELECT * FROM admins WHERE id = ?';
-  const [rows] = await con.promise().query(query, [id]);
-  return rows;
-  // returns admin withouth password
-  // const admin = await con.promise().query(query, [id]);
-  // return admin[0].map((admin) => {
-  //   const { password, ...adminWithoutPassword } = admin;
-  //   return adminWithoutPassword;
-  // });
+  const admin = await prisma.user.findUnique({
+    where: { id },
+  });
+  return admin;
 };
 
 const createAdmin = async (admin) => {
-  const query = 'INSERT INTO admins SET ?';
-  const newAdmin = {
-    ...admin,
-    password: await bcrypt.hash(admin.password, 10),
-  };
-  const [rows] = await con.promise().query(query, [newAdmin]);
-  return rows;
+  const newUser = await prisma.user.create({
+    data: {
+      ...admin,
+      password: bcrypt.hashSync(admin.password, 10),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+  });
+  if (!newUser) return null;
+  return newUser;
 };
 
 const deleteAdmin = async (id) => {
-  const query = 'DELETE FROM admins WHERE id = ?';
-  const [rows] = await con.promise().query(query, id);
-  return rows;
+  const deletedAdmin = await prisma.user.delete({
+    where: { id },
+  });
+  return deletedAdmin;
 };
 
 const updateAdmin = async (adminId, updateAdmin) => {
-  const query = 'UPDATE admins SET ? WHERE id = ?';
   const oldAdmin = await getAdmin(adminId);
-  if (oldAdmin) {
-    const adminDdata = {
+  if (!oldAdmin) return null;
+  const updatedAdmin = await prisma.user.update({
+    where: { id: adminId },
+    data: {
       ...updateAdmin,
-      password: await bcrypt.hash(updateAdmin.password, 10),
+      password: bcrypt.hashSync(updateAdmin.password, 10),
       updatedAt: new Date(),
-    };
-    const [rows] = await con.promise().query(query, [adminDdata, adminId]);
-    return rows;
-  }
-  return null;
+    },
+  });
+  return updatedAdmin;
 };
 
 const getAdminByEmail = async (email) => {
-  const query = 'SELECT * FROM admins WHERE email = ?';
-  const [rows] = await con.promise().query(query, [email]);
-  return rows;
+  const admin = await prisma.user.findUnique({
+    where: { email },
+  });
+  return admin;
 };
 
 const adminService = {

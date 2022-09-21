@@ -31,10 +31,11 @@ CREATE TABLE [dbo].[posts] (
 -- CreateTable
 CREATE TABLE [dbo].[user] (
     [id] INT NOT NULL IDENTITY(1,1),
-    [first_name] NVARCHAR(100) NOT NULL,
-    [last_name] NVARCHAR(100) NOT NULL,
+    [fullName] NVARCHAR(100) NOT NULL,
     [email] VARCHAR(50) NOT NULL,
     [password] VARCHAR(255) NOT NULL,
+    [createdAt] DATETIME NOT NULL CONSTRAINT [user_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
+    [updatedAt] DATETIME2 NOT NULL CONSTRAINT [user_updatedAt_df] DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT [user_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [user_email_key] UNIQUE NONCLUSTERED ([email])
 );
