@@ -7,11 +7,17 @@ import securityMiddleware from '../../middleware/security';
 const routes = () => {
   const adminRouter = express.Router();
 
-  adminRouter.get('/', securityMiddleware, getAllAdmins);
-  adminRouter.get('/:id', securityMiddleware, getAdmin);
-  adminRouter.post('/', securityMiddleware, adminValidators.createAdmin, createAdmin);
-  adminRouter.patch('/:id', securityMiddleware, adminValidators.updateAdmin, updateAdmin);
-  adminRouter.delete('/:id', securityMiddleware, adminValidators.deleteAdmin, deleteAdmin);
+  adminRouter.get('/', getAllAdmins);
+  adminRouter.get('/:id', getAdmin);
+  adminRouter.post('/', createAdmin);
+  adminRouter.patch('/:id', updateAdmin);
+  adminRouter.delete('/:id', deleteAdmin, deleteAdmin);
+
+  // adminRouter.get('/', securityMiddleware, getAllAdmins);
+  // adminRouter.get('/:id', securityMiddleware, getAdmin);
+  // adminRouter.post('/', securityMiddleware, adminValidators.createAdmin, createAdmin);
+  // adminRouter.patch('/:id', securityMiddleware, adminValidators.updateAdmin, updateAdmin);
+  // adminRouter.delete('/:id', securityMiddleware, adminValidators.deleteAdmin, deleteAdmin);
 
   return adminRouter;
 };
