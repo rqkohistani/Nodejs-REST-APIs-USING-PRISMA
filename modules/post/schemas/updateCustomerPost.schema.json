@@ -2,7 +2,7 @@
   "type": "object",
   "properties": {
     "customerId": { "type": "integer" },
-    "published": { "type": "integer", "minimum": 0, "maximum": 1 },
+    "published": { "type": "boolean" },
     "title": {
       "type": "string",
       "minLength": 2

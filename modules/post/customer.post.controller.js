@@ -15,7 +15,7 @@ const getAllPostsOrGetPostById = async (req, res, next) => {
 const getPostByCustomerId = async (req, res, next) => {
   try {
     const customerId = parseInt(req.params.customerId, 10);
-    const posts = await customerPostService.getPostByCustomerId(customerId);
+    const posts = await customerPostService.getPostsByCustomerId(customerId);
     if (posts.length <= 0) throw new HttpError(404, 'Posts not found');
     res.status(200).json(posts);
   } catch (error) {
@@ -40,7 +40,7 @@ const deletePost = async (req, res, next) => {
     const postId = parseInt(req.params.postId, 10);
     const customerId = parseInt(req.body.customerId, 10);
     const deletedPost = await customerPostService.deletePost(customerId, postId);
-    if (deletedPost.affectedRows === 0) throw new HttpError(404, 'Post or customer not found');
+    if (!deletedPost) throw new HttpError(404, 'Post or customer not found');
     res.status(200).json({ message: 'Post deleted', database: deletedPost });
   } catch (error) {
     next(error);
@@ -52,7 +52,7 @@ const updatePost = async (req, res, next) => {
     const postId = parseInt(req.params.postId, 10);
     const customerId = parseInt(req.body.customerId, 10);
     const updatedPost = await customerPostService.updatePost(customerId, postId, req.body);
-    if (updatedPost.affectedRows === 0) throw new HttpError(404, 'Post or customer not found');
+    if (!updatedPost) throw new HttpError(404, 'Post or customer not found');
     res.status(200).json({ message: 'Post updated', database: updatedPost });
   } catch (error) {
     next(error);
