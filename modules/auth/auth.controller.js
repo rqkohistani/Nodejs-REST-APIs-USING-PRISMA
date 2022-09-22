@@ -5,7 +5,7 @@ import { HttpError } from '../../errors';
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const [admin] = await adminService.getAdminByEmail(email);
+    const admin = await adminService.getAdminByEmail(email);
     if (!admin) throw new HttpError(401, 'Invalid email or password');
     const isPasswordValid = await authService.comparePassword(password, admin.password);
     if (!isPasswordValid) throw new HttpError(400, 'Invalid email or password');
@@ -20,7 +20,7 @@ const login = async (req, res, next) => {
 const getAdminFromAuthToken = async (req, res, next) => {
   // getAdminFromAuthToken indicates who is logged in.
   try {
-    const [admin] = await authService.getAdminFromAuthToken(req.headers?.authorization);
+    const admin = await authService.getAdminFromAuthToken(req.headers?.authorization);
     res.status(200).send(admin);
   } catch (error) {
     next(error);
