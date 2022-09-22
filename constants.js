@@ -4,4 +4,4 @@ export const DEFAULT_ERROR = {
   message: 'Something went wrong.',
 };
 
-export const AUTH_DURATION_MS = 864000000; // 10 days hours
+export const AUTH_DURATION_MS = 28800; // 8 hours
