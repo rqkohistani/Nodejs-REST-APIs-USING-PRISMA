@@ -81,8 +81,7 @@ The APIs could be improve over time to be more secure.
     npx prisma migrate dev --name init
     ```
 
-1. Seed the database once or comment out the `createAdmin();
-and createUser();` function in the seeding file
+1. Seed the database once or comment out `seed();` function in the seeding file
 
     ```bash
     npx prisma db seed
