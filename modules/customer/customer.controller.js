@@ -39,6 +39,9 @@ const updateCustomer = async (req, res, next) => {
   try {
     const id = parseInt(req.params.id, 10);
     const customer = await customerService.updateCustomer(id, req.body);
+    if (!customer) {
+      throw new HttpError(404, `Customer with id ${id} not found`);
+    }
     res.status(200).json({ message: 'Customer updated', database: customer });
   } catch (error) {
     next(error);
