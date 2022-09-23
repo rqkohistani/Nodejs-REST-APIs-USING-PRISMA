@@ -8,7 +8,7 @@
 1. ```npx prisma migrate dev --name init``` creates the database and tables
 1. ```npx prisma migrate reset``` resets the database and tables
 1. ```npx prisma db push --force-reset``` resets the database and then pushes the schema to the database
-1. ```npx prisma studio``` opens the prisma studio 
+1. ```npx prisma studio``` opens the prisma studio
 1. ```npx prisma db pull``` pulls the database schema and writes it to the schema.prisma file
 1. ```npx prisma generate``` generates the prisma client and Reads Prisma schema and generates Prisma Client library (node_modules specific to our project/autocomplete, etc)
 1. ```npx prisma migrate dev --name Name``` - Maps prisma data model into the db schema (with migration script)
@@ -199,7 +199,6 @@ SELECT * FROM dbo.Customers;
 -- DROP TABLE dbo.Customers;
 
 ```
-
 
 ## Usefull links
 
