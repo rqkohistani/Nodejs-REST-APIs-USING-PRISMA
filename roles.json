@@ -1,0 +1,45 @@
+{
+  "user": {
+    "routes": [
+      "GET/api/v3/customers/",
+      "GET/api/v3/customers/:id",
+      "POST/api/v3/customers/",
+      "PUT/api/v3/customers/:id",
+      "PATCH/api/v3/customers/:id",
+      "DELETE/api/v3/customers/:id",
+      "GET/api/v3/posts/",
+      "GET/api/v3/posts/:customerId",
+      "POST/api/v3/posts/",
+      "PATCH/api/v3/posts/:postId",
+      "DELETE/api/v3/posts/:postId"
+    ]
+  },
+  "guest": {
+    "routes": [
+      "GET/api/v3/customers/",
+      "GET/api/v3/customers/{id}",
+      "POST/api/v3/customers",
+      "patch/api/v3/customers/{id}",
+      "DELETE/api/v3/customers/{id}",
+      "GET/api/v3/admins",
+      "GET/api/v3/admins/{id}",
+      "POST/api/v3/admins",
+      "patch/api/v3/admins/{id}"
+    ]
+  },
+  "subscribedUsers": {
+    "routes": [
+      "GET/api/v3/users",
+      "GET/api/v3/users/{id}",
+      "POST/api/v3/users",
+      "patch/api/v3/users/{id}",
+      "PUT/api/v3/users/{id}",
+      "DELETE/api/v3/users/{id}",
+      "GET/api/v3/admins",
+      "GET/api/v3/admins/{id}",
+      "POST/api/v3/admins",
+      "PUT/api/v3/admins/{id}",
+      "DELETE/api/v3/admins/{id}"
+    ]
+  }
+}
