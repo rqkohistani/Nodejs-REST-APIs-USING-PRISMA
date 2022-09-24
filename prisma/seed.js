@@ -10,53 +10,26 @@ const prisma = new PrismaClient();
 async function addNewCustomerWithPost() {
   try {
     const newCustomer = await prisma.customers.upsert({
-      where: { username: 'Johndoe2' },
+      where: { username: 'Johndoe' },
       update: {},
       create: {
         name: 'John Doe',
-        username: 'Johndoe2',
-        email: 'john2@example.com',
-        password: 'password',
+        username: 'Johndoe',
+        email: 'john@example.com',
+        password: bcrypt.hashSync('password', 10),
         createdAt: new Date(),
         updatedAt: new Date(),
         posts: {
-          create: {
-            title: 'Hello World',
-            body: 'This is my first post',
-          },
-        },
-      },
-    });
-
-    console.log('Create 1 customer with 2 post: ', newCustomer);
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  } finally {
-    await prisma.$disconnect();
-  }
-}
-
-// addNewCustomerWithPost();
-
-async function addNewCustomersWithPosts() {
-  try {
-    const username = faker.internet.userName();
-    const newCustomer = await prisma.customers.upsert({
-      where: { username },
-      update: {},
-      create: {
-        name: faker.name.fullName(),
-        username,
-        email: faker.internet.email(),
-        password: faker.internet.password(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        posts: {
-          create: {
-            title: faker.lorem.sentence(3),
-            body: faker.lorem.sentence(8),
-          },
+          create: [
+            {
+              title: 'Hello World',
+              body: 'This is my first post',
+            },
+            {
+              title: 'Hello World',
+              body: 'This is my first post',
+            },
+          ],
         },
       },
     });
@@ -108,6 +81,98 @@ const createUser = async () => {
   }
 };
 
-createAdmin();
-createUser();
-addNewCustomersWithPosts();
+const createManyUsers = async () => {
+  try {
+    const users = await prisma.user.createMany({
+      data: [
+        {
+          name: 'SuperAdmin',
+          email: 'superadmin@gmail.com',
+          password: bcrypt.hashSync('password', 10),
+          userRole: 'superAdmin',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: 'Admin',
+          email: 'admin@gmail.com',
+          password: bcrypt.hashSync('password', 10),
+          userRole: 'admin',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: 'User',
+          email: 'user@gmail.com',
+          password: bcrypt.hashSync('password', 10),
+          userRole: 'user',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ],
+    });
+    console.log('New user Created: ', users);
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+};
+
+const createManyCustomersAndPosts = async () => {
+  try {
+    const username = faker.internet.userName();
+    const createNewCustomersAndPosts = await prisma.customers.upsert({
+      where: { username: faker.internet.userName() },
+      update: {},
+      create: {
+        name: faker.name.firstName(),
+        username,
+        email: faker.internet.email(),
+        password: bcrypt.hashSync('password', 10),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        posts: {
+          create: [
+            {
+              title: faker.lorem.sentence(3),
+              body: faker.lorem.sentence(8),
+            },
+            {
+              title: faker.lorem.sentence(3),
+              body: faker.lorem.sentence(8),
+            },
+          ],
+        },
+      },
+    });
+
+    console.log('New customer with posts: ', createNewCustomersAndPosts);
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+// createAdmin();
+// createUser();
+// createManyUsers();
+// addNewCustomerWithPost();
+// createManyCustomersAndPosts();
+
+const seed = async () => {
+  try {
+    await createManyUsers();
+    for (let i = 0; i < 20; i += 1) {
+      // eslint-disable-next-line no-await-in-loop
+      await createManyCustomersAndPosts();
+    }
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+seed();
