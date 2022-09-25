@@ -15,6 +15,13 @@ const getCustomer = async (id) => {
   return customer;
 };
 
+const getCustomerByEmail = async (email) => {
+  const customer = await prisma.customers.findUnique({
+    where: { email },
+  });
+  return customer;
+};
+
 const createCustomer = async (customer) => {
   const newCustomer = await prisma.customers.create({
     data: {
@@ -52,6 +59,7 @@ const deleteCustomer = async (customerId) => {
 const customerService = {
   getAllCustomers,
   getCustomer,
+  getCustomerByEmail,
   createCustomer,
   updateCustomer,
   deleteCustomer,

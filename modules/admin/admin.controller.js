@@ -25,6 +25,10 @@ const getAdmin = async (req, res, next) => {
 
 const createAdmin = async (req, res, next) => {
   try {
+    const userExists = await adminService.getAdminByEmail(req.body.email);
+    if (userExists) {
+      throw new HttpError(409, 'User already exists');
+    }
     const admin = await adminService.createAdmin(req.body);
     return res.status(201).json({ message: `${admin.userRole} created`, database: admin });
   } catch (error) {

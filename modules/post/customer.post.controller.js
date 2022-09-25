@@ -1,5 +1,6 @@
 import { HttpError } from '../../errors';
 import customerPostService from './customer.post.service';
+import customerService from '../customer/customer.service';
 
 const getAllPostsOrGetPostById = async (req, res, next) => {
   try {
@@ -25,8 +26,10 @@ const getPostByCustomerId = async (req, res, next) => {
 
 const createPostByCustomerId = async (req, res, next) => {
   try {
-    const { customerId } = req.body;
+    const customerId = parseInt(req.body.customerId, 10);
     const { title, body } = req.body;
+    const customerIdExists = await customerService.getCustomer(customerId);
+    if (!customerIdExists) throw new HttpError(404, 'Customer not found');
     const newPost = await customerPostService.createPostByCustomerId(customerId, { title, body });
     if (!newPost) throw new HttpError(404, { post: 'Post not created', customer: 'Customer not found' });
     res.status(201).json({ message: 'Post created', database: newPost });

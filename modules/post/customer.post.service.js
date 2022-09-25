@@ -68,23 +68,32 @@ const getPostsByCustomerId = async (customerId) => {
 };
 
 const createPostByCustomerId = async (customerId, postData) => {
-  const customer = await customerService.getCustomer(customerId);
-  if (customer) {
-    const post = await prisma.posts.create({
-      data: {
-        ...postData,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        customers: {
-          connect: {
-            id: customerId,
-          },
+  const post = await prisma.posts.create({
+    data: {
+      ...postData,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      customers: {
+        connect: {
+          id: customerId,
         },
       },
-    });
-    return post;
-  }
-  return null;
+    },
+    select: {
+      id: true,
+      title: true,
+      body: true,
+      createdAt: true,
+      updatedAt: true,
+      customers: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  });
+  return post;
 };
 
 const deletePost = async (customerId, postId) => {
