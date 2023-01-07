@@ -2,9 +2,11 @@
 
 ## [Mysql configuration with prisma](prisma_mysql_workbench/QuickStart.md)
 
+<!--
 ***
 ![Nodejs](./images/nodejs.PNG)
 ***
+-->
 
 ## This Nodejs REST API part three is intended to be secure and user-friendly, and it makes use of best API practices
 
